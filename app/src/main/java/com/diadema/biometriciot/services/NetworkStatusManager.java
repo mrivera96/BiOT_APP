@@ -51,7 +51,7 @@ public class NetworkStatusManager {
                     //if (wifiInfo.getSSID().equals(context.getString(R.string.ssid)) ){
                         statusResponse = "SSID Correct";
                     //}else
-                     //   statusResponse = "SSID Incorrect";
+                     //   statusResponse = "SSID Incorrect";MR
 
                     break;
                 case ConnectivityManager.TYPE_MOBILE:
