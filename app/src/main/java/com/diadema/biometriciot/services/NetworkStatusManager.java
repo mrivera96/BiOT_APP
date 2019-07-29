@@ -48,10 +48,10 @@ public class NetworkStatusManager {
 
                    Log.d("NetworkStatusManager", " SSID iguales: " + wifiInfo.getSSID().equals(context.getString(R.string.ssid)));
                     Log.d("NetworkStatusManager", " SSID: " + wifiInfo.getSSID());
-                    if (wifiInfo.getSSID().equals(context.getString(R.string.ssid)) ){
+                    //if (wifiInfo.getSSID().equals(context.getString(R.string.ssid)) ){
                         statusResponse = "SSID Correct";
-                    }else
-                        statusResponse = "SSID Incorrect";
+                    //}else
+                     //   statusResponse = "SSID Incorrect";
 
                     break;
                 case ConnectivityManager.TYPE_MOBILE:
