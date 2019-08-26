@@ -18,15 +18,15 @@ public class Door {
     private String Type;
 
     @SerializedName("tiene_puerta")
-    private int hdoor;
+    private String tiene_puerta;
 
 
 
-    public Door(String Description, String IP, String Type, int hdoor) {
+    public Door(String Description, String IP, String Type, String tiene_puerta) {
         this.Description = Description;
         this.IP = IP;
         this.Type = Type;
-        this.hdoor = hdoor;
+        this.tiene_puerta = tiene_puerta;
     }
 
 
@@ -54,7 +54,7 @@ public class Door {
         Type = type;
     }
 
-    public int getHDoor(){
-        return this.hdoor;
+    public String getHDoor(){
+        return this.tiene_puerta;
     }
 }

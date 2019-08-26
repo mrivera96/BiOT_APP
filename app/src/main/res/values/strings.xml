@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Biometric IoT</string>
-    <string name="nav_header_subtitle">Departamento ICT HN\n\nAgroindustrias Diadema Zona Franca Honduras S.A.</string>
+    <string name="nav_header_subtitle">Departamento ICT HN\nAgroindustrias Diadema Zona Franca Honduras S.A.</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="menu_doors">Puertas</string>
@@ -41,4 +41,9 @@
     <string name="buscador">Buscador</string>
     <string name="title_list_doors">Lista de puertas</string>
     <string name="fuera_de_servicio">La generación de reportes esta fuera de servicio.\n\nPuede seguir usando las demas funcionalidades.</string>
+    <string name="doors">Puertas</string>
+    <string name="desc_doors">Muestra los dispositivos biométricos que están conectados a una puerta.</string>
+    <string name="reports">Reportes</string>
+    <string name="desc_reports">Ver los reportes de asistencia por día o rango de fechas.</string>
+
 </resources>

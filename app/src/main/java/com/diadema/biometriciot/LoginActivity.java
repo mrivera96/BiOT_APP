@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
         btnLogin = findViewById(R.id.btn_login);
         service = RetrofitBuilder.createService(ApiService.class);
         tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
@@ -229,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void setupRules() {
         validator.addValidation(this, R.id.til_email, Patterns.EMAIL_ADDRESS, R.string.err_email);
-        validator.addValidation(this, R.id.til_password, "[a-zA-Z0-9.]{8,50}", R.string.err_password);
+        validator.addValidation(this, R.id.til_password, "[a-zA-Z0-9.]{5,50}", R.string.err_password);
     }
 
     private void handleErrors(ResponseBody response) {

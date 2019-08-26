@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class DoorResponse {
+
     private List<Door> data;
 
     public List<Door> getData() {

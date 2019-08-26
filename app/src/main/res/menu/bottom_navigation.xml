@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/puertas"
+        android:icon="@drawable/door"
+        android:title="@string/doors" />
+
+    <item
+        android:id="@+id/navigation_usa"
+        android:icon="@drawable/reports"
+        android:title="@string/reports" />
+
+
+
+</menu>

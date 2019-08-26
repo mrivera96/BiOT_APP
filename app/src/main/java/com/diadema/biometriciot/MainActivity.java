@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,6 +67,129 @@ import retrofit2.Response;
 /**
  * Updated by Melvin Rivera on 14/05/2019.
  */
+public class MainActivity extends AppCompatActivity{
+    @BindView(R.id.doorlinear) LinearLayout doors;
+    Call<DoorResponse> call2;
+    ApiService serviceWithAuth;
+    TokenManager tokenManager;
+    private static final String TAG = "MainActivity";
+    LinearLayout contenedorPadreMain;
+    private LinearLayout contenedorMensajeMain;
+    private ImageView imagenMensajeMain;
+    private TextView tvMensajeMain;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        contenedorPadreMain = findViewById(R.id.contenedorPadreMain);
+        contenedorMensajeMain = findViewById(R.id.contenedorMensajeMain);
+        imagenMensajeMain = findViewById(R.id.imagenMensajeMain);
+        tvMensajeMain = findViewById(R.id.tvMensajeMain);
+        tokenManager = TokenManager.getInstance(getApplicationContext().getSharedPreferences("prefs", MODE_PRIVATE));
+        serviceWithAuth = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
+
+        switch (NetworkStatusManager.status(Objects.requireNonNull(getApplicationContext()))) {
+            case "Offline":
+                showMensaje(getResources().getDrawable(R.drawable.no_wifi_black), getString(R.string.sin_internet));
+                break;
+            case "Mobile data":
+                showMensaje(getResources().getDrawable(R.drawable.no_wifi_black), getString(R.string.no_wifi));
+                break;
+            case "SSID Incorrect":
+                showMensaje(getResources().getDrawable(R.drawable.no_wifi_black), getString(R.string.no_coorporativa));
+                break;
+            case "SSID Correct":
+
+                break;
+        }
+    }
+
+    public void irAPuertas(View view){
+        Intent intent = new Intent(this,DoorsManager.class);
+        startActivity(intent);
+    }
+
+    public void irAReportes(View view){
+        Intent intent = new Intent(this,ReportsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.logOut) {
+            logout();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void logout(){
+
+        call2=serviceWithAuth.logout();
+        call2.enqueue(new Callback<DoorResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<DoorResponse> call, @NonNull Response<DoorResponse> response) {
+
+                Log.w(TAG, "onResponse: " + response);
+
+                if (response.isSuccessful()) {
+                    tokenManager.deleteToken();
+                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                    finish();
+                } else {
+                    try {
+                        Log.w(TAG, "onError: " + response.errorBody().string());
+                        Log.w(TAG, "onError2: " + response.message());
+                        switch (response.message()){
+                            case "Internal Server Error":
+                                showMensaje(getResources().getDrawable(R.drawable.sin_respuesta), getString(R.string.error_500));
+                                break;
+                            case "Unauthorized":
+                                tokenManager.deleteToken();
+                                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                                finish();
+                                break;
+                            default:
+                                showMensaje(getResources().getDrawable(R.drawable.sin_respuesta), getString(R.string.sin_respuesta)+"Error");
+                                break;
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DoorResponse> call, @NonNull Throwable t) {
+                Log.w(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void showMensaje(Drawable imagMensaje, String mensaje){
+        imagenMensajeMain.setImageDrawable(imagMensaje);
+        tvMensajeMain.setText(mensaje);
+        TransitionManager.beginDelayedTransition(contenedorPadreMain);
+        contenedorMensajeMain.setVisibility(View.VISIBLE);
+    }
+
+}
+/*
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "MainActivity";
@@ -320,7 +444,7 @@ public class MainActivity extends AppCompatActivity
                             deptoArray.add(departamento);
                         }
                         setSpinner(departamento, deptoArray);*/
-                    } catch (IOException e) {
+                   /* } catch (IOException e) {
                         e.printStackTrace();
                     }
 
@@ -347,7 +471,7 @@ public class MainActivity extends AppCompatActivity
 
                         //initRecycleList(listaDoors);
                     }*/
-                }else {
+              /*  }else {
                     assert response.errorBody() != null;
                     try {
                         Log.w(TAG, "onError: " + response.errorBody().string());
@@ -444,7 +568,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }*/
-
+/*
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -464,7 +588,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }*/
-
+/*
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -513,3 +637,4 @@ public class MainActivity extends AppCompatActivity
         });
     }
 }
+*/

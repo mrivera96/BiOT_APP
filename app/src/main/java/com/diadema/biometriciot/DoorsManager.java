@@ -102,16 +102,13 @@ public class DoorsManager extends AppCompatActivity implements SearchView.OnQuer
         callDoors.enqueue(new Callback<DoorResponse>() {
             @Override
             public void onResponse(@NonNull Call<DoorResponse> call, @NonNull Response<DoorResponse> response) {
-                Log.w(TAG, "onResponse: " + response);
                 if(response.isSuccessful()){
                     assert response.body() != null;
                     if(response.body().getData().size() == 0 ){
                         showMensaje(getResources().getDrawable(R.drawable.sin_respuesta), getString(R.string.sin_puertas));
                     }else {
-
                             showRecycleList();
                             for (int i = 0; i < response.body().getData().size(); i++) {
-                                Log.d("Response","desc:"+response.body().getData().get(i).getDescription()+"\n"+response.body().getData().get(i).getHDoor());
                                 if (response.body().getData().get(i).getType().equals("11")){
                                     type = "bw";
                                 }else{
@@ -120,17 +117,15 @@ public class DoorsManager extends AppCompatActivity implements SearchView.OnQuer
                                 Door door= new Door(response.body().getData().get(i).getDescription(),
                                         response.body().getData().get(i).getIP(),
                                         type,
-                                        response.body().getData().get(i).getHDoor()
-                                        );
-                                if (door.getDescription().equals("Edificio Principal")||door.getDescription().equals("Entrada Produccion")||door.getDescription().equals("Servidores") || door.getDescription().equals("Entrada Empaque") ) {
+                                        response.body().getData().get(i).getHDoor());
+
+                                if (door.getHDoor().equals("1") ) {
 
                                     listaDoors.add(door);
                                 }
 
                                 initRecycleList(listaDoors);
                             }
-
-
 
                     }
                 }else {

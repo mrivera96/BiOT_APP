@@ -8,24 +8,38 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
+
     <application
         android:name=".services.MyApp"
         android:allowBackup="true"
-        android:appComponentFactory="whateverString"
         android:fullBackupContent="@xml/backup_descriptor"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/logo_biometric_iot"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo_biometric_iot_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="false"
-        tools:replace="android:appComponentFactory">
-        <activity android:name=".DoorsManager"></activity>
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ReportsActivity"
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".DoorsManager"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/fullscreen"
@@ -64,7 +78,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden" />
     </application>
 

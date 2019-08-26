@@ -9,10 +9,10 @@ import java.util.List;
  */
 
 public class ReporteResponse {
-    @SerializedName("data")
-    private List<Reporte> data;
+    @SerializedName("respuesta")
+    private List<Reporte> respuesta;
 
     public List<Reporte> getData() {
-        return data;
+        return respuesta;
     }
 }

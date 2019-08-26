@@ -4,4 +4,20 @@
         <item>Fecha única</item>
         <item>Rango de Fechas</item>
     </string-array>
+
+    <!--Array con los valores de la cabecera de la tabla-->
+    <string-array name="cabecera_tabla">
+        <item>Nombre</item>
+        <item>Departamento</item>
+        <item>Horario</item>
+        <item>Hora marcó entrada</item>
+        <item>Hora marcó salida</item>
+        <item>Fecha</item>
+        <item>Día</item>
+        <item>¿Llegó tarde?</item>
+        <item>Horas teóricas trabajadas</item>
+        <item>Horas reales trabajadas</item>
+        <item>Tiempo de salida</item>
+        <item>Horas extras</item>
+    </string-array>
 </resources>

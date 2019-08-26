@@ -41,12 +41,12 @@ public interface ApiService {
 
     @POST("reportes")
     @FormUrlEncoded
-    Call<ResponseBody> reportes(@Field("fecha") String fecha, @Field("DayId") int DayId,
+    Call<ReporteResponse> reportes(@Field("fecha") String fecha, @Field("DayId") int DayId,
                                 @Field("IdDepartment") int IdDepartment);
 
     @POST("reportes")
     @FormUrlEncoded
-    Call<ResponseBody> reportes(@Field("fecha") String fecha, @Field("DayId") int DayId,
+    Call<ReporteResponse> reportes(@Field("fecha") String fecha, @Field("DayId") int DayId,
                                    @Field("IdDepartment") String IdDepartment);
 
 }
