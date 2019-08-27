@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -133,10 +134,13 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
         rs = this.getResources();
         listReports = new ArrayList<>();
         btnConsultar.setOnClickListener(v -> {
-            this.reporte();
-            contenedorFormularioReporte.setVisibility(View.GONE);
-            btnConsultar.hide();
-            scrollView.setVisibility(View.VISIBLE);
+            if(fecha_inicial.getText().toString().isEmpty() ){
+                Toast.makeText(this,"Ingrese una fecha",Toast.LENGTH_SHORT).show();
+            }else{
+                this.reporte();
+                contenedorFormularioReporte.setVisibility(View.GONE);
+                btnConsultar.hide();
+            }
 
         });
 
@@ -174,6 +178,22 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(scrollView.getVisibility()==View.GONE){
+            super.onBackPressed();
+        }else{
+            scrollView.setVisibility(View.GONE);
+            contenedorMensajeReporte.setVisibility(View.GONE);
+            contenedorFormularioReporte.setVisibility(View.VISIBLE);
+            listReports.clear();
+            filas.clear();
+            tabla.removeAllViews();
+            btnConsultar.show();
+        }
+
     }
 
     private void showMensaje(Drawable imagMensaje, String mensaje) {
@@ -313,7 +333,7 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
 
 
                     if (response.body().getData().size() == 0) {
-                        showMensaje(getResources().getDrawable(R.drawable.sin_respuesta), getString(R.string.sin_puertas));
+                        showMensaje(getResources().getDrawable(R.drawable.sin_respuesta), getString(R.string.sin_registros));
                     } else {
 
                         for (int i = 0; i < response.body().getData().size(); i++) {
@@ -329,11 +349,15 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
                                     response.body().getData().get(i).getMinutos_entrada(),
                                     response.body().getData().get(i).getMinutos_salida(),
                                     response.body().getData().get(i).getNombre(),
-                                    response.body().getData().get(i).getNombre_horario()));
+                                    response.body().getData().get(i).getNombre_horario(),
+                                    response.body().getData().get(i).getAsis(),
+                                    response.body().getData().get(i).getSalioantes(),
+                                    response.body().getData().get(i).getExtras()));
                         }
 
                         agregarCabecera(R.array.cabecera_tabla);
                         agregarFilaTabla(listReports);
+                        scrollView.setVisibility(View.VISIBLE);
 
 
                     }
@@ -380,11 +404,13 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
     private Reporte get(String departamento, String dia, String fecha, String fecha_y_hora_marco_max,
                         String fecha_y_hora_marco_min, String hora_entrada, String hora_salida,
                         String horasrealestrabajadas, String horastrabajadas, String minutos_entrada,
-                        String minutos_salida, String nombre, String nombre_horario) {
+                        String minutos_salida, String nombre, String nombre_horario, String asis, String salioantes,
+                        String hextras) {
         return new Reporte(departamento, dia, fecha, fecha_y_hora_marco_max,
                 fecha_y_hora_marco_min, hora_entrada, hora_salida,
                 horasrealestrabajadas, horastrabajadas, minutos_entrada,
-                minutos_salida, nombre, nombre_horario);
+                minutos_salida, nombre, nombre_horario,  asis,  salioantes,
+                 hextras);
     }
 
     /**
@@ -406,6 +432,9 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
             layoutCelda = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(arraycabecera[i]), TableRow.LayoutParams.WRAP_CONTENT);
             texto.setText(arraycabecera[i]);
             texto.setGravity(Gravity.CENTER_HORIZONTAL);
+            texto.setTextColor(getResources().getColor(R.color.icons));
+            fila.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            texto.setTextSize(18);
 
             texto.setLayoutParams(layoutCelda);
 
@@ -424,29 +453,114 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
      * @param elementos Elementos de la fila
      */
     public void agregarFilaTabla(ArrayList<Reporte> elementos) {
-        TableRow.LayoutParams layoutCelda;
-        TableRow.LayoutParams layoutFila = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-        TableRow fila = new TableRow(this);
-        fila.setLayoutParams(layoutFila);
+
 
         for (int i = 0; i < elementos.size(); i++) {
+            TableRow.LayoutParams layoutCelda, layoutCelda1, layoutCelda2,
+                    layoutCelda3, layoutCelda4, layoutCelda5, layoutCelda6,
+                    layoutCelda7, layoutCelda8, layoutCelda9, layoutCelda10,
+                    layoutCelda11;
+
+            TableRow.LayoutParams layoutFila = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            TableRow fila = new TableRow(this);
+            fila.setLayoutParams(layoutFila);
             TextView nombre = new TextView(this);
             nombre.setText(String.valueOf(elementos.get(i).getNombre()));
-            nombre.setGravity(Gravity.CENTER_HORIZONTAL);
+
             TextView depto = new TextView(this);
             depto.setText(String.valueOf(elementos.get(i).getDepartamento()));
-            depto.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            TextView horario = new TextView(this);
+            horario.setText(String.valueOf(elementos.get(i).getNombre_horario()));
+
+            TextView hme = new TextView(this);
+            hme.setText(String.valueOf(elementos.get(i).getFecha_y_hora_marco_min()));
+
+            TextView hms = new TextView(this);
+            hms.setText(String.valueOf(elementos.get(i).getFecha_y_hora_marco_max()));
+
+            TextView fecha = new TextView(this);
+            fecha.setText(String.valueOf(elementos.get(i).getFecha()));
+
+            TextView dia = new TextView(this);
+            dia.setText(String.valueOf(elementos.get(i).getDia()));
+
+            TextView asis = new TextView(this);
+            asis.setText(String.valueOf(elementos.get(i).getAsis()));
+            if(asis.getText().equals("SÍ")){
+                fila.setBackgroundColor(Color.RED);
+            }
+
+            TextView hteor = new TextView(this);
+            hteor.setText(String.valueOf(elementos.get(i).getHorastrabajadas()));
+
+            TextView hreal = new TextView(this);
+            hreal.setText(String.valueOf(elementos.get(i).getHorasrealestrabajadas()));
+
+            TextView tsal = new TextView(this);
+            tsal.setText(String.valueOf(elementos.get(i).getSalioantes()));
+
+            TextView extras = new TextView(this);
+            extras.setText(String.valueOf(elementos.get(i).getExtras()));
+
 
             layoutCelda = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(nombre.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
             nombre.setLayoutParams(layoutCelda);
-            layoutCelda1 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(nombre.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
-            nombre.setLayoutParams(layoutCelda);
 
-            fila.addView(texto);
+            layoutCelda1 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(depto.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            depto.setLayoutParams(layoutCelda1);
+
+            layoutCelda2 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(horario.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            horario.setLayoutParams(layoutCelda2);
+
+            layoutCelda3 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(hme.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            hme.setLayoutParams(layoutCelda3);
+
+            layoutCelda4 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(hms.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            hms.setLayoutParams(layoutCelda4);
+
+            layoutCelda5 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(fecha.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            fecha.setLayoutParams(layoutCelda5);
+
+            layoutCelda6 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(dia.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            dia.setLayoutParams(layoutCelda6);
+
+            layoutCelda7 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(asis.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            asis.setLayoutParams(layoutCelda7);
+
+            layoutCelda8 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(hteor.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            hteor.setLayoutParams(layoutCelda8);
+
+            layoutCelda9 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(hreal.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            hreal.setLayoutParams(layoutCelda9);
+
+            layoutCelda10 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(tsal.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            tsal.setLayoutParams(layoutCelda10);
+
+            layoutCelda11 = new TableRow.LayoutParams(obtenerAnchoPixelesTexto(extras.getText().toString()), TableRow.LayoutParams.WRAP_CONTENT);
+            extras.setLayoutParams(layoutCelda11);
+
+
+            fila.addView(nombre);
+            fila.addView(depto);
+            fila.addView(horario);
+            fila.addView(hme);
+            fila.addView(hms);
+            fila.addView(fecha);
+            fila.addView(dia);
+            fila.addView(asis);
+            fila.addView(hteor);
+            fila.addView(hreal);
+            fila.addView(tsal);
+            fila.addView(extras);
+
+            tabla.addView(fila);
+
+
+            filas.add(fila);
+
         }
 
-        tabla.addView(fila);
-        filas.add(fila);
 
         FILAS++;
     }

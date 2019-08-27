@@ -47,13 +47,23 @@ public class Reporte {
     @SerializedName("nombre_horario")
     private String nombre_horario;
 
+    @SerializedName("salioantes")
+    private String salioantes;
+
+    @SerializedName("extras")
+    private String extras;
+
+    @SerializedName("asis")
+    private String asis;
+
     @SerializedName("cantidadempleadosdepto")
     private  int cantidadempleadosdepto;
 
     public Reporte(String departamento, String dia, String fecha, String fecha_y_hora_marco_max,
                    String fecha_y_hora_marco_min, String hora_entrada, String hora_salida,
                    String horasrealestrabajadas, String horastrabajadas, String minutos_entrada,
-                   String minutos_salida, String nombre, String nombre_horario) {
+                   String minutos_salida, String nombre, String nombre_horario, String asis, String salioantes,
+                   String hextras) {
         this.departamento = departamento;
         this.dia = dia;
         this.fecha = fecha;
@@ -67,7 +77,10 @@ public class Reporte {
         this.minutos_salida = minutos_salida;
         this.nombre = nombre;
         this.nombre_horario = nombre_horario;
-    }
+        this.asis=asis;
+        this.salioantes=salioantes;
+        this.extras = hextras;
+            }
 
     public String getDepartamento() {
         return departamento;
@@ -179,5 +192,29 @@ public class Reporte {
 
     public void setCantidadempleadosdepto(int cantidadempleadosdepto) {
         this.cantidadempleadosdepto = cantidadempleadosdepto;
+    }
+
+    public String getSalioantes() {
+        return salioantes;
+    }
+
+    public void setSalioantes(String salioantes) {
+        this.salioantes = salioantes;
+    }
+
+    public String getExtras() {
+        return extras;
+    }
+
+    public void setExtras(String extras) {
+        this.extras = extras;
+    }
+
+    public String getAsis() {
+        return asis;
+    }
+
+    public void setAsis(String asis) {
+        this.asis = asis;
     }
 }

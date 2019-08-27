@@ -4,6 +4,7 @@ import com.diadema.biometriciot.BuildConfig;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -52,6 +53,7 @@ public class RetrofitBuilder {
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create())
+
                 .build();
     }
 
@@ -75,7 +77,7 @@ public class RetrofitBuilder {
                 request = builder.build();
                 return chain.proceed(request);
             }
-        }).authenticator(CustomAuthenticator.getInstance(tokenManager)).build();
+        }).authenticator(CustomAuthenticator.getInstance(tokenManager)).readTimeout(120, TimeUnit.SECONDS).connectTimeout(120,TimeUnit.SECONDS).build();
 
         Retrofit newRetrofit = retrofit.newBuilder().client(newClient).build();
         return newRetrofit.create(service);
