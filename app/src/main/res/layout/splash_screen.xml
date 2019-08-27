@@ -17,4 +17,12 @@
         android:layout_centerVertical="true"
         android:contentDescription="@string/todo"
         android:src="@drawable/logo_camacho_original" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:textColor="@color/primary_text"
+        android:textAlignment="center"
+
+        android:text="@string/nav_header_subtitle"/>
 </RelativeLayout>
