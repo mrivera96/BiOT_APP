@@ -75,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.container)
     RelativeLayout container;
 
+    @BindView(R.id.lblICT)
+    TextView lblIct;
+
     @BindView(R.id.form_container)
     LinearLayout formContainer;
 
@@ -209,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         TransitionManager.beginDelayedTransition(container);
         contenedorMensajeLogin.setVisibility(View.GONE);
         formContainer.setVisibility(View.GONE);
+        lblIct.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
     }
 

@@ -141,6 +141,7 @@
                     android:textColor="@color/icons" />
             </LinearLayout>
             <TextView
+                android:id="@+id/lblICT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/icons"
