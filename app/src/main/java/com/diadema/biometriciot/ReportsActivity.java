@@ -494,6 +494,10 @@ public class ReportsActivity extends AppCompatActivity implements DatePickerDial
             TextView hteor = new TextView(this);
             hteor.setText(String.valueOf(elementos.get(i).getHorastrabajadas()));
 
+            if(hteor.getText().equals("marcaje incorecto")){
+                fila.setBackgroundColor(Color.YELLOW);
+            }
+
             TextView hreal = new TextView(this);
             hreal.setText(String.valueOf(elementos.get(i).getHorasrealestrabajadas()));
 
