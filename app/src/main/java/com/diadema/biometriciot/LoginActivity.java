@@ -121,13 +121,15 @@ public class LoginActivity extends AppCompatActivity {
         tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
         SharedPreferences prefs_Info=getSharedPreferences("prefsInfo", MODE_PRIVATE);
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
-
+        checkNetworkState();
         /***
          *ACTUALIZADO
          * EN LAS NUEVAS VERSIONES DE ANDROID ES NECESARIO OBTENER PERMISO ACCESS_FINE_LOCATION Y ADEMÁS
          * TENER LOS SERVICIOS DE LOCALIZACIÓN ACTIVADOS PARA PODER OBTENER DETALLES DE LA RED
+         * POSTERIORMENTE LA EMPRESA AGREGÓ UNA NUEVA RED INALAÁMBRICA Y SE DECIDIÓ NO VALIDAR LA RED A
+         * LA CUAL ESTÁ CONECTADO, YA QUE 2 DE ELLAS PUEDEN ACCEDER AL SERVIDOR QUE ALOJA LOS DATOS
          ***/
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        /*LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -137,10 +139,10 @@ public class LoginActivity extends AppCompatActivity {
                         PERMISION_FINE_LOCATION);
                 recreate();
             }
-            checkNetworkState();
+
         }else{
             showMensaje(getResources().getDrawable(R.drawable.gps),"Debe activar los servicios de localización");
-        }
+        }*/
 
 
         serviceWithAuth = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
@@ -284,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions,
                                            int[] grantResults) {
@@ -296,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Permission was denied or request was cancelled
             }
         }
-    }
+    }*/
 
     private void checkNetworkState(){
         switch (NetworkStatusManager.status(Objects.requireNonNull(getApplicationContext()))) {
@@ -306,9 +308,7 @@ public class LoginActivity extends AppCompatActivity {
             case "Mobile data":
                 showMensaje(getResources().getDrawable(R.drawable.no_wifi_blanco), getString(R.string.no_wifi));
                 break;
-            case "SSID Incorrect":
-                showMensaje(getResources().getDrawable(R.drawable.no_wifi_blanco), getString(R.string.no_coorporativa));
-                break;
+
             case "SSID Correct":
                 try {
                     if (tokenManager.getToken().getAccessToken() != null) {

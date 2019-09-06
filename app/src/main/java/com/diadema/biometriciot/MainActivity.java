@@ -96,9 +96,6 @@ public class MainActivity extends AppCompatActivity{
             case "Mobile data":
                 showMensaje(getResources().getDrawable(R.drawable.no_wifi_black), getString(R.string.no_wifi));
                 break;
-            case "SSID Incorrect":
-                showMensaje(getResources().getDrawable(R.drawable.no_wifi_black), getString(R.string.no_coorporativa));
-                break;
             case "SSID Correct":
 
                 break;
@@ -189,6 +186,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
 }
+
+    /****************************************
+     *  CÓDIGO ANTIGUO
+     **********************************/
+
 /*
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
